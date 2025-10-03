@@ -1,10 +1,31 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"os"
+	"strconv"
 )
 
+const balanceFile = "balance.txt"
+
+func writeToFile(balance float64) {
+	balanceText := fmt.Sprint("Current balance: ", balance)
+	os.WriteFile(balanceFile, []byte(balanceText), 0644)
+}
+
+func getBalanceFromFile() (float64, error) {
+	data, err := os.ReadFile(balanceFile)
+	if err != nil {
+		return 0, errors.New("failed to find balance.txt file")
+	}
+	parsedBalance, err := strconv.ParseFloat(string(data)[17:], 64)
+	if err != nil {
+		return 0, errors.New("failed to parse balance from file")
+	}
+	return parsedBalance, nil
+
+}
 func main() {
 	message := `
 	Welcome to the Go Bank!
@@ -15,7 +36,13 @@ func main() {
 	4. Exit
 	`
 	var userChoice int
-	var accountBalance float64 = 1000 //dummy balance
+	accountBalance, err := getBalanceFromFile()
+
+	if err != nil {
+		fmt.Println("Initial Error: ", err)
+		fmt.Println("Don't worry, depositing automatically creates a new one but starts from 0.")
+	}
+
 	isLoggedOn := true
 
 	for isLoggedOn {
@@ -33,6 +60,7 @@ func main() {
 			fmt.Print("=> How much do you want to deposit: ")
 			fmt.Scan(&userDeposit)
 			accountBalance += userDeposit
+			writeToFile(accountBalance)
 			fmt.Printf("=> Thank you for your deposit. Your account balance is now: %.2f\n", accountBalance)
 
 		case 3:
@@ -51,6 +79,7 @@ func main() {
 					fmt.Println("=> Withdrawing...")
 					fmt.Printf("=> You now have %.2f cash in your hands\n", userWithdrawal)
 					accountBalance -= userWithdrawal
+					writeToFile(accountBalance)
 					fmt.Printf("=> Your balance is now %.2f\n", accountBalance)
 					isWithdrawed = true
 				}
