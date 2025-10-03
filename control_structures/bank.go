@@ -41,7 +41,7 @@ func main() {
 			for !isWithdrawed {
 				fmt.Print("=> Amount of money to withdraw from account: ")
 				fmt.Scan(&userWithdrawal)
-				if(userWithdrawal > accountBalance) {
+				if userWithdrawal > accountBalance {
 					fmt.Printf("(!) Cannot bro. Not enough balance to withdraw.\n")
 					fmt.Printf("Your current balance is %.2f\ne", accountBalance)
 				} else if userWithdrawal <= 0 {
@@ -59,6 +59,9 @@ func main() {
 		case 4:
 			fmt.Println("=> Thank you for your visit. Have a great day!")
 			isLoggedOn = false
+
+		default:
+			fmt.Println("=> Please pick a valid option and NO HACKING >:( ")
 		}
 	}
 	os.Exit(0)
