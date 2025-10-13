@@ -4,6 +4,8 @@ import (
 	"errors"
 	"fmt"
 	"os"
+
+	"example.com/profit-calculator-with-imports/banner"
 )
 
 // Task: add error handling
@@ -18,7 +20,7 @@ var userTaxRate float64
 const resultFile = "results.txt"
 
 func main() {
-	printBanner()
+	banner.PrintBanner()
 	askUserRevenue()
 	askUserExpense()
 	askUserTaxRate()
@@ -103,15 +105,4 @@ func validateInput(input float64) error {
 		return errors.New("Please enter a valid input: no zeros, negatives, or strings.")
 	}
 	return nil
-}
-
-func printBanner() {
-	banner := `
-	 ____             __ _ _      ____      _            _       _             
-	|  _ \ _ __ ___  / _(_) |_   / ___|__ _| | ___ _   _| | __ _| |_ ___  _ __ 
-	| |_) | '__/ _ \| |_| | __| | |   / _  | |/ __| | | | |/ _  | __/ _ \| '__|
-	|  __/| | | (_) |  _| | |_  | |__| (_| | | (__| |_| | | (_| | || (_) | |   
-	|_|   |_|  \___/|_| |_|\__|  \____\__,_|_|\___|\__,_|_|\__,_|\__\___/|_|   
-	`
-	fmt.Println(banner)
 }

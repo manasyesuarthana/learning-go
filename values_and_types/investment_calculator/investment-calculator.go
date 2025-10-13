@@ -33,8 +33,8 @@ func main() {
 	fmt.Scan(&years)
 
 	//a second way, go will automatically declare the type for us (this is generally a better way)
-	futureValue := float64(initialValue) * math.Pow((1 + expectedReturnRate / 100), years)
-	realFutureValue := futureValue / math.Pow((1 + inflationRate / 100), years)
+	futureValue := float64(initialValue) * math.Pow((1+expectedReturnRate/100), years)
+	realFutureValue := futureValue / math.Pow((1+inflationRate/100), years)
 
 	fmt.Println()
 	fmt.Println("===== RESULTS =====")
