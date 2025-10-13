@@ -120,3 +120,4 @@ import "github.com/<user-name>/<package-name>
 ```
 
 3. Start using the functions from the library!
+
