@@ -23,7 +23,7 @@ I may or may not update this in the future, depending on how satisfied I am with
 cd <learning-section>
 #do whatever you want:
 go build
-go run <filename.go>
+go run <filename.go> # or go run .
 #... something else
  ```
 
