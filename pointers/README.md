@@ -48,7 +48,7 @@ The problem is with efficiency. When we are passing a variable by value:
 - After it finishes, Go will throw this variable away into the garbage (garbage collection).
 Because of this, a lot of uncessary work is done in the background. Instead, we can do an alternative that is more efficient. 
 
-## Passing by Reference
+### Passing by Reference
 In this case, we pass the pointer of the variable instead of the variable itself. This means, however, we have to adjust the function so that it can take a pointer type:
 ```Go
 func convertToAdultYears(passedAge *int) int {
