@@ -13,6 +13,38 @@ type User struct {
 	createdAt time.Time
 }
 
+// methods: similars to methods in objects, we can attach a function to a struct.
+// by a reciever to a function - basically the struct type it takes before the function name and after the func keyword just like:
+func (user *User) outputUserDetailsMethod() {
+	fmt.Printf("\n === User Details === \n")
+	fmt.Println("First name: ", user.firstName)
+	fmt.Println("Last name: ", user.lastName)
+	fmt.Println("Date of Birth: ", user.birthDate)
+	fmt.Println("Created at: ", user.createdAt)
+	fmt.Printf("\n")
+}
+
+// mutating structs with methods: modifying a value inside a struct
+// important: we must pass the struct as a pointer, otherwise, we are just modifying a copy of it, not the actual struct
+func (user *User) makeUserAnonymous() {
+	user.firstName = "Anonymous"
+	user.lastName = "Anonymous"
+	user.birthDate = "REDACTED"
+}
+
+// constructor methods: these are methods used to create structs - similar to constructors in objects
+// for structs, make sure to return a pointer type, if not, you are just returning a copy of the struct (as usual)
+func createUser(inputFirstName, inputLastName, inputBirthDate string) *User {
+	newUser := User{
+		firstName: inputFirstName,
+		lastName:  inputLastName,
+		birthDate: inputBirthDate,
+		createdAt: time.Now(),
+	}
+
+	return &newUser
+}
+
 func main() {
 
 	//creating an instance of a struct
@@ -37,15 +69,36 @@ func main() {
 	//this will automatically set all the variables in the struct to their respective null values
 	user3 := User{}
 
-	fmt.Println("*** Passing by Value: ***")
-	outputUserDetails(user1)
-	outputUserDetails(user2)
-	outputUserDetails(user3)
+	user4 := createUser("John", "Doe", "01/01/2001") //note that this is a *User type, based on the return type of the constructor. Dereference before use.
 
-	fmt.Println("*** Passing by Pointer: ***")
-	outputUserDetailsWithPointer(&user1)
-	outputUserDetailsWithPointer(&user2)
-	outputUserDetailsWithPointer(&user3)
+	users := []User{user1, user2, user3, *user4}
+
+	fmt.Println("*** (I.) Passing by Value: ***")
+
+	for _, v := range users {
+		outputUserDetails(v)
+	}
+
+	fmt.Println("*** (II.) Passing by Pointer: ***")
+	// outputUserDetailsWithPointer(&user1)
+	// outputUserDetailsWithPointer(&user2)
+	// outputUserDetailsWithPointer(&user3)
+	for _, v := range users {
+		outputUserDetailsWithPointer(&v)
+	}
+
+	fmt.Println("*** (III.) Using attached Method: ***")
+
+	for _, v := range users {
+		v.outputUserDetailsMethod()
+	}
+
+	fmt.Println("*** (IV.) Make all users anonymous: ***")
+
+	for _, v := range users {
+		v.makeUserAnonymous()
+		v.outputUserDetailsMethod()
+	}
 }
 
 func getUserData(promptText string) string {
