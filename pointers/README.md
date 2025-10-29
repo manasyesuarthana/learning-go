@@ -14,7 +14,7 @@ age := 20
 
 agePointer := &age //this is the pointer
 
-fmt.Println(agePointer) //0xc00000a098 or some other memory.
+fmt.Println(agePointer) //0xc00000a098 or some other memory address that the variable is stored in.
 ```
 In the example above, we created a variable called `age` and store its memory address in `agePointer` using the `&` ampersand symbol. In this case, `agePointer` is the pointer to `age`.
 
