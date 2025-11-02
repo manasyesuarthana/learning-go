@@ -16,6 +16,29 @@ type ImportedUser struct {
 	createdAt time.Time
 }
 
+// embedded structs: a struct that builds on an existing struct type
+// similar to inheritance in OOP, where we can "inherit" features from object to object.
+type Admin struct {
+	Email    string
+	Password string
+	User     ImportedUser
+}
+
+// this is not secure design lmao. how can you create multiple admin accounts without any restrictions
+// but this is an example on how we can create an embedded struct
+func NewAdmin(inputEmail, inputPassword string) *Admin {
+	return &Admin{
+		Email:    inputEmail,
+		Password: inputPassword,
+		User: ImportedUser{
+			firstName: "Admin",
+			lastName:  "Admin",
+			birthDate: "Idk, who knows.",
+			createdAt: time.Now(),
+		},
+	}
+}
+
 func (user *ImportedUser) OutputUserDetailsMethod() {
 	fmt.Printf("\n === User Details === \n")
 	fmt.Println("First name: ", user.firstName)

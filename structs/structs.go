@@ -92,6 +92,8 @@ func main() {
 		os.Exit(1)
 	}
 
+	admin := user.NewAdmin("admin@example.com", "admin123")
+
 	users := []User{user1, user2, user3, *user4}
 
 	fmt.Println("*** (I.) Passing by Value: ***")
@@ -101,6 +103,7 @@ func main() {
 	}
 
 	user5.OutputUserDetailsMethod()
+	admin.User.OutputUserDetailsMethod()
 
 	fmt.Println("*** (II.) Passing by Pointer: ***")
 	// outputUserDetailsWithPointer(&user1)
@@ -111,6 +114,7 @@ func main() {
 	}
 
 	user5.OutputUserDetailsMethod()
+	admin.User.OutputUserDetailsMethod()
 
 	fmt.Println("*** (III.) Using attached Method: ***")
 
@@ -119,6 +123,7 @@ func main() {
 	}
 
 	user5.OutputUserDetailsMethod()
+	admin.User.OutputUserDetailsMethod()
 
 	fmt.Println("*** (IV.) Make all users anonymous: ***")
 
@@ -129,6 +134,8 @@ func main() {
 
 	user5.MakeUserAnonymous()
 	user5.OutputUserDetailsMethod()
+	admin.User.MakeUserAnonymous()
+	admin.User.MakeUserAnonymous()
 }
 
 func getUserData(promptText string) string {
