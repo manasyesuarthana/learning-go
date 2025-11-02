@@ -1,8 +1,12 @@
 package main
 
 import (
+	"errors"
 	"fmt"
+	"os"
 	"time"
+
+	"example.com/structs/user"
 )
 
 // the name is capital so the struct can be used from other packages
@@ -32,9 +36,13 @@ func (user *User) makeUserAnonymous() {
 	user.birthDate = "REDACTED"
 }
 
-// constructor methods: these are methods used to create structs - similar to constructors in objects
+// constructor functions: these are methods used to create structs - similar to constructors in objects
 // for structs, make sure to return a pointer type, if not, you are just returning a copy of the struct (as usual)
-func createUser(inputFirstName, inputLastName, inputBirthDate string) *User {
+func createUser(inputFirstName, inputLastName, inputBirthDate string) (*User, error) {
+
+	if inputFirstName == "" || inputLastName == "" || inputBirthDate == "" {
+		return nil, errors.New("all fields cannot be empty.")
+	}
 	newUser := User{
 		firstName: inputFirstName,
 		lastName:  inputLastName,
@@ -42,7 +50,7 @@ func createUser(inputFirstName, inputLastName, inputBirthDate string) *User {
 		createdAt: time.Now(),
 	}
 
-	return &newUser
+	return &newUser, nil
 }
 
 func main() {
@@ -69,7 +77,20 @@ func main() {
 	//this will automatically set all the variables in the struct to their respective null values
 	user3 := User{}
 
-	user4 := createUser("John", "Doe", "01/01/2001") //note that this is a *User type, based on the return type of the constructor. Dereference before use.
+	user4, err := createUser("John", "Doe", "01/01/2001") //note that this is a *User type, based on the return type of the constructor. Dereference before use.
+
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+
+	newUser, err := user.ConstructorFunction("Foreigner", "That is Foreign", "67/67/6767")
+	user5 := *newUser
+
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
 
 	users := []User{user1, user2, user3, *user4}
 
@@ -79,6 +100,8 @@ func main() {
 		outputUserDetails(v)
 	}
 
+	user5.OutputUserDetailsMethod()
+
 	fmt.Println("*** (II.) Passing by Pointer: ***")
 	// outputUserDetailsWithPointer(&user1)
 	// outputUserDetailsWithPointer(&user2)
@@ -87,11 +110,15 @@ func main() {
 		outputUserDetailsWithPointer(&v)
 	}
 
+	user5.OutputUserDetailsMethod()
+
 	fmt.Println("*** (III.) Using attached Method: ***")
 
 	for _, v := range users {
 		v.outputUserDetailsMethod()
 	}
+
+	user5.OutputUserDetailsMethod()
 
 	fmt.Println("*** (IV.) Make all users anonymous: ***")
 
@@ -99,12 +126,15 @@ func main() {
 		v.makeUserAnonymous()
 		v.outputUserDetailsMethod()
 	}
+
+	user5.MakeUserAnonymous()
+	user5.OutputUserDetailsMethod()
 }
 
 func getUserData(promptText string) string {
 	fmt.Print(promptText)
 	var userInput string
-	fmt.Scan(&userInput)
+	fmt.Scanln(&userInput)
 	return userInput
 }
 
