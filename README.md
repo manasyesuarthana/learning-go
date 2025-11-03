@@ -4,7 +4,7 @@
 I may or may not update this in the future, depending on how satisfied I am with my learning. Or maybe I am just lazy sometimes :P
 
  ## Tech Stack
- It's just Go...
+ The Go Programming Language
 
  ## Pre-requisites
  Make sure you have Go Installed in your system. If not, follow the steps specified in this [link](https://go.dev/doc/install) to do so.
