@@ -27,7 +27,7 @@ go run <filename.go> # or go run .
 #... something else
  ```
 
- That's it! Bye.
+ That's it! This is still onging btw.
 
 
 
